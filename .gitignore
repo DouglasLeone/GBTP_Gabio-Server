@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Build outputs
+dist/
+.parcel-cache/
+
+# IDE and System files
+.DS_Store
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.local
