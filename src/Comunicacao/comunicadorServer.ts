@@ -2,39 +2,87 @@ import { WebSocketServer, WebSocket } from 'ws';
 import http from 'http';
 
 export class ComunicadorServer {
-    private onRequestCallback: ((msg: string) => string) | null = null;
+    private onRequestCallback: ((msg: string) => string | Promise<string>) | null = null;
 
     public startServer(porta: number) {
+
         const httpServer: http.Server = http.createServer((req, res) => {
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('WebSocket server is running');
+
+            res.writeHead(200, {
+                'Content-Type': 'text/plain' 
+            });
+            
+            res.end('GBTP Websocket Server is running');
         });
 
-        const wss: WebSocketServer = new WebSocketServer({ server: httpServer });
+        const wss: WebSocketServer = new WebSocketServer({
+            server: httpServer 
+        });
 
         wss.on('connection', (ws: WebSocket) => {
-            console.log('Novo cliente conectado');
 
-            ws.on('message', (data: any) => {
+            console.log('[CLIENTE] Novo cliente conectado');
+
+            ws.on('message', async (data) => {
+                
                 const msg: string = data.toString();
-                console.log(`Mensagem recebida do cliente: ${msg}`);
 
-                let response = msg;
-                if (this.onRequestCallback) {
-                    response = this.onRequestCallback(msg);
+                console.log('[RECEBIDO]');
+                console.log(msg);
+
+                if (!this.onRequestCallback) {
+                    
+                    const erro = 
+                    `STATUS:ERROR
+                    MESSAGE:Nenhum manipulador configurado
+                    BALANCE:0`;
+
+                    ws.send(erro);
+                    return;
                 }
 
-                ws.send(response);
-                ws.close();
+                try {
+
+                    const response = await this.onRequestCallback(msg);
+
+                    if(!response || typeof response !== 'string') {
+                        throw new Error('Resposta inválida');
+                    }
+
+                    console.log('[ENVIADO]');
+                    console.log(response);
+
+                    ws.send(response);
+
+                } catch (error) {
+                    console.error(
+                        "[ERRO] Falha ao processar mensagem",
+                        error
+                    );
+
+                    const erro = 
+                    `STATUS:ERROR
+                    MESSAGE:Erro interno no servidor
+                    BALANCE:0`;
+
+                    ws.send(erro);
+                }
             });
 
-            ws.on('close', () => console.log('Cliente desconectado'));
+            ws.on('close', () => {
+                console.log('[CLIENTE] Cliente desconectado');
+            });
+            ws.on('error', (error) => {
+                console.log('[WEBSOCKET ERROR]', error);
+            });
         });
 
-        httpServer.listen(porta, () => console.log(`Servidor WebSocket ouvindo na porta ${porta}`));
+        httpServer.listen(porta, () => {
+            console.log(`[SERVIDOR] Websocket ouvindo na porta ${porta}`);
+        });
     }
 
-    public setOnRequest(callback: (msg: string) => string) {
+    public setOnRequest(callback: (msg: string) => string | Promise<string>) : void {
         this.onRequestCallback = callback;
     }
 

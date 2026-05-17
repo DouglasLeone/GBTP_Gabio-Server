@@ -1,7 +1,15 @@
 import { ComunicadorServer } from "./Comunicacao/comunicadorServer";
-import { ProcessarMaximizacaoUseCase } from "./RegrasNegocio/processarMaximizacaoUseCase";
 
-let comunicador: ComunicadorServer = new ComunicadorServer();
-let processador: ProcessarMaximizacaoUseCase = new ProcessarMaximizacaoUseCase();
-comunicador.setOnRequest(processador.processar);
-comunicador.startServer(7001);
+const server = new ComunicadorServer();
+
+server.setOnRequest((msg : string) => {
+    
+    console.log("Processando mensagem");
+
+    return `STATUS:OK
+    MESSAGE:Mensagem recebida
+    BALANCE:0`;
+
+})
+
+server.startServer(8080);

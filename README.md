@@ -8,6 +8,8 @@ Repositório do projeto: [https://github.com/DouglasLeone/GBTP_Gabio-Server](htt
 
 Responsável pela camada de comunicação e estrutura do servidor, incluindo configuração do servidor Node.js com TypeScript, implementação da comunicação via WebSocket, gerenciamento de conexões, recebimento e envio de mensagens, integração entre os módulos do sistema e inicialização da aplicação.
 
+Implementado com sucesso ✅
+
 ### Maria Clara
 
 Responsável pela implementação do protocolo GBTP, incluindo interpretação e estruturação das mensagens, desenvolvimento do parser do protocolo, validação dos campos obrigatórios, criação das respostas padronizadas e definição dos tipos/interfaces utilizados na comunicação entre cliente e servidor.
