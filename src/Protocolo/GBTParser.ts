@@ -1,18 +1,17 @@
-  import { GbtpRequest, GbtpOperation } from './types';
-  
+import { GbtpRequest, GbtpOperation } from './types';
 
-    /**
+export class GbtpRequestParser {
+  /**
    * Converte uma string de requisição bruta (formato CHAVE: VALOR\n) em um objeto estruturado.
    * Aplica validações sintáticas iniciais.
    */
-
-  function parseRequest(rawString: string): GbtpRequest {
+  static parse(rawString: string): GbtpRequest {
     const lines = rawString.split('\n');
     const fields: Record<string, string> = {};
 
     for (const line of lines) {
       if (!line.trim()) continue; // Ignora linhas vazias
-      
+
       const index = line.indexOf(':');
       if (index === -1) {
         throw new Error('Erro de Sintaxe: Campo mal formatado. Esperado CHAVE: VALOR');
@@ -58,3 +57,4 @@
       VALUE: value
     };
   }
+}
