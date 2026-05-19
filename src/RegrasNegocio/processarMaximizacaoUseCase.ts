@@ -1,3 +1,4 @@
+
 export class ProcessarMaximizacaoUseCase {
 
     private accounts = new Map([
