@@ -1,4 +1,3 @@
-import { MTPRequest, MTPResponse } from "../Protocolo/GBTProtocol";
 
 export class ProcessarMaximizacaoUseCase {
 

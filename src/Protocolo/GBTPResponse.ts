@@ -1,6 +1,6 @@
-import {GbtpResponse} from './types';
+import { GbtpResponse } from './types';
 
-export class GbtpProtocol {
+export class GbtpResponseBuilder {
   /**
    * Transforma um objeto de resposta em uma string padronizada no formato GBTP (CHAVE: VALOR\n)
    */
@@ -34,6 +34,3 @@ export class GbtpProtocol {
     };
   }
 }
-
-
- 
