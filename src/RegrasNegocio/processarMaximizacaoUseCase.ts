@@ -81,22 +81,21 @@ export class ProcessarMaximizacaoUseCase {
 
                 const to = this.repository.findById(req.TO_ACCOUNT_ID);
 
-                if (!acc || !to) {
+               if (!acc) {
                     return {
-                        STATUS: "ERROR",
-                        MESSAGE: "Conta inexistente",
-                        BALANCE: acc ? acc.balance : 0
+                         STATUS: "ERROR",
+                         MESSAGE: "Conta não encontrada",
+                         BALANCE: 0
                     };
-                }
+            }
 
-                if (acc.balance < req.VALUE) {
-                    return {
-                        STATUS: "ERROR",
-                        MESSAGE: "Saldo insuficiente",
-                        BALANCE: acc.balance
-                    };
-                }
-
+            if (!to) {
+             return {
+                STATUS: "ERROR",
+                MESSAGE: "Conta de destino inexistente",
+                BALANCE: acc.balance
+             };
+        }
                 acc.balance -= req.VALUE;
                 to.balance += req.VALUE;
 
