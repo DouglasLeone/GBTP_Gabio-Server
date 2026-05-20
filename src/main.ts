@@ -4,7 +4,6 @@ import { GbtpResponseBuilder } from "./Protocolo/GBTPResponse";
 import { ProcessAccountUseCase } from "./RegrasNegocio/ProcessAccountUseCase";
 import { AccountRepository } from "./RegrasNegocio/Account";
 import { GbtpRequest } from "./Protocolo/types";
-import { GbtpResponse } from "./Protocolo/types";
 
 const server = new ComunicadorServer();
 const account = new AccountRepository();
@@ -20,10 +19,10 @@ server.setOnRequest((msg : string) => {
 
         const requestMsg = GbtpResponseBuilder.stringifyResponse(processUseCase)
 
-        return requestMsg;
+        return "A";
 
     } catch (error) {
-
+        console.log(error)
     }
 })
 
