@@ -5,7 +5,7 @@ type Account = {
 
 export class AccountRepository {
 
-    private accounts = new Map<string, Account>();
+    private accounts = new Map<string | number, Account>();
 
     constructor() {
 
