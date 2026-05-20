@@ -1,7 +1,7 @@
 import { AccountRepository } from "./Account";
 import { GbtpRequest, GbtpResponse } from "../Protocolo/types";
 
-export class ProcessarMaximizacaoUseCase {
+export class ProcessAccountUseCase {
 
     constructor(
         private repository: AccountRepository
