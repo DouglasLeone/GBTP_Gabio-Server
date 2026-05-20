@@ -1,14 +1,15 @@
+import { AccountRepository } from "./Account";
+import { GbtpRequest, GbtpResponse } from "../Protocolo/types";
 
 export class ProcessarMaximizacaoUseCase {
 
-    private accounts = new Map([
-        ["1234", { id: "1234", balance: 500 }],
-        ["9999", { id: "9999", balance: 1000 }]
-    ]);
+    constructor(
+        private repository: AccountRepository
+    ) {}
 
-    processar(req: any) {
+    processar(req: GbtpRequest): GbtpResponse {
 
-        const acc = this.accounts.get(req.ACCOUNT_ID);
+        const acc = this.repository.findById(req.ACCOUNT_ID);
 
         switch (req.OPERATION) {
 
@@ -17,12 +18,14 @@ export class ProcessarMaximizacaoUseCase {
                 if (!acc) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Conta não encontrada"
+                        MESSAGE: "Conta não encontrada",
+                        BALANCE: 0
                     };
                 }
 
                 return {
-                    STATUS: "SUCCESS",
+                    STATUS: "OK",
+                    MESSAGE: "Saldo consultado com sucesso",
                     BALANCE: acc.balance
                 };
 
@@ -31,14 +34,18 @@ export class ProcessarMaximizacaoUseCase {
                 if (!acc) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Conta não encontrada"
+                        MESSAGE: "Conta não encontrada",
+                        BALANCE: 0
                     };
                 }
 
                 acc.balance += req.VALUE;
 
+                this.repository.update(acc);
+
                 return {
-                    STATUS: "SUCCESS",
+                    STATUS: "OK",
+                    MESSAGE: "Depósito realizado com sucesso",
                     BALANCE: acc.balance
                 };
 
@@ -47,54 +54,67 @@ export class ProcessarMaximizacaoUseCase {
                 if (!acc) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Conta não encontrada"
+                        MESSAGE: "Conta não encontrada",
+                        BALANCE: 0
                     };
                 }
 
                 if (acc.balance < req.VALUE) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Saldo insuficiente"
+                        MESSAGE: "Saldo insuficiente",
+                        BALANCE: acc.balance
                     };
                 }
 
                 acc.balance -= req.VALUE;
 
+                this.repository.update(acc);
+
                 return {
-                    STATUS: "SUCCESS",
+                    STATUS: "OK",
+                    MESSAGE: "Saque efetuado",
                     BALANCE: acc.balance
                 };
 
             case "TRANSFER":
 
-                const to = this.accounts.get(req.TO_ACCOUNT_ID);
+                const to = this.repository.findById(req.TO_ACCOUNT_ID);
 
                 if (!acc || !to) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Conta inexistente"
+                        MESSAGE: "Conta inexistente",
+                        BALANCE: acc ? acc.balance : 0
                     };
                 }
 
                 if (acc.balance < req.VALUE) {
                     return {
                         STATUS: "ERROR",
-                        MESSAGE: "Saldo insuficiente"
+                        MESSAGE: "Saldo insuficiente",
+                        BALANCE: acc.balance
                     };
                 }
 
                 acc.balance -= req.VALUE;
                 to.balance += req.VALUE;
 
+                this.repository.update(acc);
+                this.repository.update(to);
+
                 return {
-                    STATUS: "SUCCESS",
+                    STATUS: "OK",
+                    MESSAGE: "Transferência concluída",
                     BALANCE: acc.balance
                 };
 
             default:
+
                 return {
                     STATUS: "ERROR",
-                    MESSAGE: "Operação inválida"
+                    MESSAGE: "Operação inválida",
+                    BALANCE: 0
                 };
         }
     }
