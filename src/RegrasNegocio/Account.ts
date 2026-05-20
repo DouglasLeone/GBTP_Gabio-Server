@@ -9,19 +9,14 @@ export class AccountRepository {
 
     constructor() {
 
-        this.accounts.set("1001", {
-            id: "1001",
+        this.accounts.set("1234", {
+            id: "1234",
+            balance: 250
+        });
+
+        this.accounts.set("5678", {
+            id: "5678",
             balance: 500
-        });
-
-        this.accounts.set("1002", {
-            id: "1002",
-            balance: 300
-        });
-
-        this.accounts.set("1003", {
-            id: "1003",
-            balance: 1000
         });
     }
 
