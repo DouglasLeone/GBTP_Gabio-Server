@@ -31,4 +31,4 @@ server.setOnRequest((msg : string) => {
     }
 })
 
-server.startServer(8080);
+server.startServer(7001);

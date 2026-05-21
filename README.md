@@ -4,25 +4,9 @@ Repositório do projeto: [https://github.com/DouglasLeone/GBTP_Gabio-Server](htt
 
 ## Integrantes e Responsabilidades
 
-### Douglas ✅
-
-Responsável pela camada de comunicação e estrutura do servidor, incluindo configuração do servidor Node.js com TypeScript, implementação da comunicação via WebSocket, gerenciamento de conexões, recebimento e envio de mensagens, integração entre os módulos do sistema e inicialização da aplicação.
-
-**Status:** Implementado com sucesso ✅
-
-### Maria Clara ✅
-
-Responsável pela implementação do protocolo GBTP, incluindo interpretação e estruturação das mensagens, desenvolvimento do parser do protocolo, validação dos campos obrigatórios, criação das respostas padronizadas e definição dos tipos/interfaces utilizados na comunicação entre cliente e servidor.
-
-**Status:** Implementado com sucesso ✅
-
-### Alisson ✅
-
-Responsável pela camada de regras de negócio do sistema, incluindo implementação das operações bancárias (consulta de saldo, depósito, saque e transferência), gerenciamento das contas em memória e validações relacionadas às transações e regras do protocolo.
-
-**Status:** Implementado com sucesso ✅
-
-
+### Douglas
+### Maria Clara
+### Alisson
 
 ## Estrutura Completa do Projeto
 
