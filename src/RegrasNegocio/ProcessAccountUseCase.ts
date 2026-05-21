@@ -89,13 +89,22 @@ export class ProcessAccountUseCase {
                     };
             }
 
-            if (!to) {
-             return {
-                STATUS: "ERROR",
-                MESSAGE: "Conta de destino inexistente",
-                BALANCE: acc.balance
-             };
-        }
+               if (!to) {
+                    return {
+                          STATUS: "ERROR",
+                          MESSAGE: "Conta de destino inexistente",
+                          BALANCE: acc.balance
+                    };
+            }
+
+               if (acc.balance < req.VALUE) { 
+                    return {
+                          STATUS: "ERROR",
+                          MESSAGE: "Saldo insuficiente",
+                          BALANCE: acc.balance
+                    };
+            }
+
                 acc.balance -= req.VALUE;
                 to.balance += req.VALUE;
 
