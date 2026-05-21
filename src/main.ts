@@ -19,10 +19,15 @@ server.setOnRequest((msg : string) => {
 
         const requestMsg = GbtpResponseBuilder.stringifyResponse(processUseCase)
 
-        return "A";
+        return requestMsg;
 
     } catch (error) {
         console.log(error)
+        const errorResponse = GbtpResponseBuilder.buildErrorResponse(
+            error instanceof Error ? error.message : 'Erro desconhecido'
+        );
+
+        return GbtpResponseBuilder.stringifyResponse(errorResponse);
     }
 })
 

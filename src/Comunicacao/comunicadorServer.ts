@@ -31,13 +31,7 @@ export class ComunicadorServer {
                 console.log(msg);
 
                 if (!this.onRequestCallback) {
-                    
-                    const erro = 
-                    `STATUS:ERROR
-                    MESSAGE:Nenhum manipulador configurado
-                    BALANCE:0`;
-
-                    ws.send(erro);
+                    ws.send('ERROR: No handler configured');
                     return;
                 }
 
@@ -60,12 +54,7 @@ export class ComunicadorServer {
                         error
                     );
 
-                    const erro = 
-                    `STATUS:ERROR
-                    MESSAGE:Erro interno no servidor
-                    BALANCE:0`;
-
-                    ws.send(erro);
+                    ws.send('ERROR:Internal server error');
                 }
             });
 
